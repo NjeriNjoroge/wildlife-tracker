@@ -5,21 +5,9 @@ import java.util.Arrays;
 
 public class AnimalTest{
 
-  //telling the tests to use only this dedicated database
-  @Before
-public void setUp() {
-  DB.sql2o = new Sql2o("jdbc:postgresql://localhost:5432/wildlife_tracker_test", "gnjoroge", "1234");
-}
-
-
-//clearing the test database
-@After
-public void tearDown() {
-try(Connection con = DB.sql2o.open()) {
-  String deleteAnimalsQuery = "DELETE FROM animals *;";
-  con.createQuery(deleteAnimalsQuery).executeUpdate();
-}
-}
+  //telling the tests to use only this dedicated database and clear after
+  @Rule
+  public DatabaseRule database = new DatabaseRule();
 
   //instance of animal
 @Test
